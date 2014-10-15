@@ -23,10 +23,14 @@ def help_function():
 
 def get_student_by_github(github):
     query = """SELECT first_name, last_name, github FROM Students WHERE github = ?"""
-    DB.execute(query, (github,))
-    row = DB.fetchone()
-    return row
-
+    try:
+        DB.execute(query, (github,))
+        row = DB.fetchone()
+        print """\
+    Student: %s %s
+    Github account: %s"""%(row[0], row[1], row[2])
+    except:
+        print "entry not found"
 
 def connect_to_db():
     global DB, CONN
@@ -43,7 +47,7 @@ def query_projects_by_title(title):
     query = """SELECT * FROM Projects WHERE title = ?"""
     try:
         DB.execute(query,(title,))
-        row = DB.fetchall()
+        row = DB.fetchone()
         print """\
         Title: %s 
         Description: %s
@@ -58,7 +62,7 @@ def query_grades_by_project_title(title):
             """
     try:
         DB.execute(query,(title,))
-        row = DB.fetchall()
+        row = DB.fetchone()
         print """\
         Student: %s
         Grade: %s"""%(row[1], row[0])
@@ -73,11 +77,10 @@ def query_grades_by_student(last_name):
     try:
         DB.execute(query,(last_name,))
         print
-        row = DB.fetchall()
+        row = DB.fetchone()
         print """\
         Project: %s
         Grade: %s"""%(row[0],row[1])
-        return row
     except:
         print "entry not found"
 
