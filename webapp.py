@@ -26,6 +26,11 @@ def get_student():
     html = render_template("student_info.html", first_name=row1[0], last_name=row1[1], github=row1[2], projects = get_project, grades=get_grades)
     return html
 
+@app.route("/project_grades")
+def grades_by_project():
+    hackbright_app.connect_to_db()
+    
+
 
 
 if __name__ == "__main__":
